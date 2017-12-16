@@ -4,8 +4,12 @@ package testes;
 import Suporte.Generator;
 import Suporte.Screenshot;
 import org.apache.http.util.Asserts;
+import org.easetech.easytest.annotation.DataLoader;
+import org.easetech.easytest.annotation.Param;
+import org.easetech.easytest.runner.DataDrivenTestRunner;
 import org.junit.*;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
@@ -16,12 +20,14 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
-
-
 /**
  * Created by hudson on 15/12/2017.
  */
-public class AprendendoAutomacao {
+
+@RunWith(DataDrivenTestRunner.class)
+@DataLoader(filePaths = "AprendendoAutomacao.csv")
+
+public class AprendendoAutomacao    {
 
         private WebDriver navegador;
         @Rule
@@ -53,25 +59,26 @@ public class AprendendoAutomacao {
 
 
         @Test
-        public void cadastrarContaUsuario(){
+        public void testCadastrarContaUsuario(@Param(name="tipo")String tipo,@Param(name="contato") String contato,
+                                              @Param(name= "mensagem") String mensagemEsperada){
 
 
 
             navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
             WebElement popup = navegador.findElement(By.id("addmoredata"));
             WebElement campoType = popup.findElement(By.name("type"));
-            new Select(campoType).selectByValue("phone");
-            navegador.findElement(By.name("contact")).sendKeys("+553112345658");
+            new Select(campoType).selectByVisibleText(tipo);
+            navegador.findElement(By.name("contact")).sendKeys(contato);
             navegador.findElement(By.linkText("SAVE")).click();
             //aqui foi cadastrado com sucesso
             WebElement texto = navegador.findElement(By.id("toast-container"));
-            String miguel = texto.getText();
-            System.out.print(miguel);
-            Assert.assertEquals("Your contact has been added!",miguel);
+            String mensagem = texto.getText();
+            System.out.print(mensagem);
+            Assert.assertEquals(mensagemEsperada,mensagem);
 
             //pegando o print da tela após cadastrar
 
-            String screanshotArqCadastro = "/Users/hudson/Pictures/aqui/" + Generator.dataHoraParaArquivo()
+            String screanshotArqCadastro = "/Users/hudson/Desktop/Evidencias/" + Generator.dataHoraParaArquivo()
                     + arquivo.getMethodName() + ".png";
             Screenshot.printar(navegador,screanshotArqCadastro);
 
@@ -79,7 +86,7 @@ public class AprendendoAutomacao {
 
         }
 
-        @Test
+        //@Test
 
         public void removerContaUsuario() {
             navegador.findElement(By.xpath("//span[text()=\"+553112345658\"]/following-sibling::a")).click();
@@ -89,10 +96,9 @@ public class AprendendoAutomacao {
             System.out.print(miguel);
             Assert.assertEquals("Rest in peace, dear phone!",miguel);
 
-            String screanshotArqremover = "/Users/hudson/Pictures/aqui/" + Generator.dataHoraParaArquivo()
+            String screanshotArqremover = "/Users/hudson/Desktop/Evidencias/" + Generator.dataHoraParaArquivo()
                     + arquivo.getMethodName() + ".png";
             Screenshot.printar(navegador,screanshotArqremover);
-
 
             WebDriverWait aguardar = new WebDriverWait(navegador,10);
             aguardar.until(ExpectedConditions.stalenessOf(texto));
