@@ -1,6 +1,8 @@
 package testes;
 //import Suporte.Generator;
 //import Suporte.Screenshot;
+import Suporte.Generator;
+import Suporte.Screenshot;
 import org.apache.http.util.Asserts;
 import org.junit.*;
 import org.junit.rules.TestName;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by hudson on 15/12/2017.
  */
-public class aprendendoAutomacao {
+public class AprendendoAutomacao {
 
         private WebDriver navegador;
         @Rule
@@ -69,9 +71,9 @@ public class aprendendoAutomacao {
 
             //pegando o print da tela após cadastrar
 
-            //String screanshotArquivo1 = "/Users/hudson/Pictures/aqui/ " + Generator.dataHoraParaArquivo()
-                //    + arquivo.getMethodName() + ".png";
-            //Screenshot.tirarScreanshot(navegador,screanshotArquivo1);
+            String screanshotArqCadastro = "/Users/hudson/Pictures/aqui/" + Generator.dataHoraParaArquivo()
+                    + arquivo.getMethodName() + ".png";
+            Screenshot.printar(navegador,screanshotArqCadastro);
 
             navegador.quit();
 
@@ -87,9 +89,9 @@ public class aprendendoAutomacao {
             System.out.print(miguel);
             Assert.assertEquals("Rest in peace, dear phone!",miguel);
 
-            //String screanshotArquivo = "/Users/hudson/Pictures/aqui/" + Generator.dataHoraParaArquivo()
-              //      + arquivo.getMethodName() + ".png";
-            //Screenshot.tirarScreanshot(navegador,screanshotArquivo);
+            String screanshotArqremover = "/Users/hudson/Pictures/aqui/" + Generator.dataHoraParaArquivo()
+                    + arquivo.getMethodName() + ".png";
+            Screenshot.printar(navegador,screanshotArqremover);
 
 
             WebDriverWait aguardar = new WebDriverWait(navegador,10);
