@@ -12,7 +12,6 @@ public class Screenshot {
     public static void printar(WebDriver navegador,String arquivo) {
 
         File screenshot = ((TakesScreenshot)navegador).getScreenshotAs(OutputType.FILE);
-        //FileUtils.copyFile(screenshot,new File(arquivo));
 
         try {
 

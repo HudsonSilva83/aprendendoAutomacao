@@ -3,6 +3,7 @@ package testes;
 //import Suporte.Screenshot;
 import Suporte.Generator;
 import Suporte.Screenshot;
+import Suporte.Web;
 import org.apache.http.util.Asserts;
 import org.easetech.easytest.annotation.DataLoader;
 import org.easetech.easytest.annotation.Param;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @RunWith(DataDrivenTestRunner.class)
-@DataLoader(filePaths = "AprendendoAutomacao.csv")
+@DataLoader(filePaths = "LogarPageObjectsTest.csv")
 
 public class AprendendoAutomacao    {
 
@@ -38,23 +39,18 @@ public class AprendendoAutomacao    {
         @Before
         public void setup(){
 
+           navegador = Web.createChrome();
 
-            System.setProperty("webdriver.chrome.driver","C:\\test\\chromedriver.exe");
-            navegador = new ChromeDriver();
-            navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-            navegador.manage().window().maximize();
-            navegador.get("https://juliodeLima.com.br/taskit");
-            //Assert.assertEquals("","");
-            navegador.findElement(By.linkText("Task it!")).click();
-            navegador.findElement(By.linkText("Sign in")).click();
+
+
 
             WebElement formulario = navegador.findElement(By.id("signinbox"));
 
             formulario.findElement(By.name("login")).sendKeys("julio0001");
             formulario.findElement(By.name("password")).sendKeys("123456");
             navegador.findElement(By.linkText("SIGN IN")).click();
-            navegador.findElement(By.className("me")).click();
-            navegador.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
+
+
         }
 
 
@@ -64,17 +60,14 @@ public class AprendendoAutomacao    {
 
 
 
-            navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
+
             WebElement popup = navegador.findElement(By.id("addmoredata"));
             WebElement campoType = popup.findElement(By.name("type"));
             new Select(campoType).selectByVisibleText(tipo);
             navegador.findElement(By.name("contact")).sendKeys(contato);
             navegador.findElement(By.linkText("SAVE")).click();
             //aqui foi cadastrado com sucesso
-            WebElement texto = navegador.findElement(By.id("toast-container"));
-            String mensagem = texto.getText();
-            System.out.print(mensagem);
-            Assert.assertEquals(mensagemEsperada,mensagem);
+
 
             //pegando o print da tela após cadastrar
 
